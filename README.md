@@ -27,10 +27,12 @@ will complete much faster.
 
 ## Demo #3 - Running SQL over disk-only records
 
-* Start a new 2-nodes cluster with `ignite-persistence-configuration.xml` that enables Ignite
-native persistence.
-* Create the Countries database using `ignite_world.sql`. 
-* Run the query with join from Demo 2 from GridGain WebConsole.
+* Start a new 2-nodes cluster with `ignite-small-memory-region.xml` configuration, activate the cluster using `control.sh`.
+* Run `big-data-set.sql` script, there will be an exception, which indicates there is not enough space for data.
+* Restart the cluster with `ignite-small-memory-region-persistence-enabled.xml` configuration.
+* Run `big-data-set.sql` script, make sure the data is loaded successfully.
+* Check with WebConsole the default region memory metrics.
+* Run a select over loaded data.
 * Stop the cluster and start the nodes back again.
 * Check with WebConsole that the memory regions are empty (the data is available on disk only).
 * Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt 
