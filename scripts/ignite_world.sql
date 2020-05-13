@@ -48,6 +48,7 @@ CREATE TABLE CountryLanguage (
 
 CREATE INDEX idx_lang_country_code ON countrylanguage (CountryCode);
 
+SET STREAMING ON;
 
 INSERT INTO City(ID, Name, CountryCode, District, Population) VALUES (1,'Kabul','AFG','Kabol',1780000);
 INSERT INTO City(ID, Name, CountryCode, District, Population) VALUES (2,'Qandahar','AFG','Qandahar',237500);
@@ -5354,3 +5355,5 @@ INSERT INTO CountryLanguage(CountryCode, Language, IsOfficial, Percentage) VALUE
 INSERT INTO CountryLanguage(CountryCode, Language, IsOfficial, Percentage) VALUES ('ZWE','Ndebele','F',16.2);
 INSERT INTO CountryLanguage(CountryCode, Language, IsOfficial, Percentage) VALUES ('ZWE','Nyanja','F',2.2);
 INSERT INTO CountryLanguage(CountryCode, Language, IsOfficial, Percentage) VALUES ('ZWE','Shona','F',72.1);
+
+SET STREAMING OFF;
