@@ -47,9 +47,12 @@ Instead, you'll run the same query and Ignite will server all the data from disk
 
 * Start a new 2-nodes cluster with `{root_of_this_project}/config/ignite-small-memory-region.xml` configuration.
 * Connect to the cluster with SQLLine: `{ignite}/bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/`
-* Open `{root_of_this_project}/scripts/big-data-set.sql` script in a text editor and update the absolute path to `Fielding.csv` file referenced from 
-`COPY FROM '{root_of_this_project}/data/Fielding.csv'` command.
-* Run `!run {root_of_this_project}/scripts/big-data-set.sql` script. The loading will fail and one of the node will print out the following exception:
+* Run `!run {root_of_this_project}/scripts/fielding.sql` script.
+* Run command:
+```
+COPY FROM '{root_of_this_project}/data/Fielding.csv' INTO Fielding (ID,playerID,yearID,stint,teamID,lgID,POS,G,GS,InnOuts,PO,A,E,DP,PB,WP,SB,CS,ZR) FORMAT CSV;
+```
+The loading will fail and one of the node will print out the following exception:
 ```
 class org.apache.ignite.internal.mem.IgniteOutOfMemoryException: Out of memory in data region
 ```
@@ -68,7 +71,34 @@ SELECT * FROM Fielding ORDER BY yearID DESC
 * Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt 
 cluster termination.
 
-## Other Demos
+## Demo #4 - Calcite Prototype Demo With Sub-Queries
+
+This demo shows Calcite SQL Query engine capabilities engine.
+
+* Build Ignite distribution from a feature branch running next commands:
+```
+git clone --depth 1 --branch ignite-12248 https://gitbox.apache.org/repos/asf/ignite
+cd ./ignite
+mvn clean package -DskipTests -Prelease,lgpl
+cd ./target/release-package-apache-ignite
+cp -r ./libs/optional/ignite-calcite ./libs/
+cp -r ./libs/optional/ignite-slf4j ./libs/
+``` 
+* Start three ignite nodes with default configuration: `./bin/ignite.[sh|bat] ./config/default-config.xml`
+* Connect to the cluster with SQLLine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/`
+* Create tables using next script: `!run {root_of_this_project}/scripts/employer.sql`
+* Execute a query:
+```
+SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
+```
+* Check the result is wrong.
+* Close SQLLine session: `!quit`
+* Connect to the cluster using experimental query engine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true`
+* Execute a query:
+```
+SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
+```
+* Check the result is correct.
 
 Check `DemoAnnotations` and `DemoQueryEntities` for alternate ways of SQL configuration in Ignite.
 

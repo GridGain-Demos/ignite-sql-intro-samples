@@ -22,7 +22,3 @@ CREATE TABLE Fielding (
     ZR VARCHAR,
     PRIMARY KEY (ID)
 ) WITH "template=partitioned2, CACHE_NAME=Fielding";
-
-COPY FROM '/Users/igorseliverstov/projects/ignite-sql-intro-samples/data/Fielding.csv' INTO Fielding (ID,playerID,yearID,stint,teamID,lgID,POS,G,GS,InnOuts,PO,A,E,DP,PB,WP,SB,CS,ZR) FORMAT CSV
-
-
