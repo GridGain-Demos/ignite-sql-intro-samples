@@ -46,7 +46,6 @@ queries in-memory and disk-tier transparently. Second, you'll restart the cluste
 Instead, you'll run the same query and Ignite will server all the data from disk. 
 
 * Start a new 2-nodes cluster with `{root_of_this_project}/config/ignite-small-memory-region.xml` configuration.
-* Activate the cluster using `{ignite}/bin/control.sh --activate` command.
 * Connect to the cluster with SQLLine: `{ignite}/bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/`
 * Open `{root_of_this_project}/scripts/big-data-set.sql` script in a text editor and update the absolute path to `Fielding.csv` file referenced from 
 `COPY FROM '{root_of_this_project}/data/Fielding.csv'` command.
@@ -60,7 +59,10 @@ configuration and activate it with `{ignite}/bin/control.sh --activate`.
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
 * Go to WebConsole's Dashboard and check that default region's Memory metrics.
  will be occupied database records that fit in RAM.
-* Run a select query over the loaded data - `SELECT * FROM Fielding ORDER BY yearID DESC`.
+* Execute a simple SQL query from WebConsole's SQL Notebooks screen: 
+```
+SELECT * FROM Fielding ORDER BY yearID DESC
+```
 * Stop the cluster and start the nodes back again.
 * Check with WebConsole that the memory regions are empty (the data is available on disk only).
 * Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt 
