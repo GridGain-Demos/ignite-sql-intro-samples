@@ -65,22 +65,22 @@ COPY FROM '{root_of_this_project}/data/Fielding.csv' INTO Fielding (ID,playerID,
 ```
 
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
-* Go to WebConsole's Dashboard and check that default region's Memory metrics.
- will be occupied database records that fit in RAM.
+* Go to the Web Console Dashboard screen and check default region's memory metrics. You will see that the memory space is barely utilized 
+while the disk usage will be around 70 MBs.  
 * Execute a simple SQL query from WebConsole's SQL Notebooks screen: 
 ```
 SELECT * FROM Fielding ORDER BY yearID DESC
 ```
-* Stop the cluster and start the nodes back again.
+* Stop the cluster and bring the nodes back again.
 * Check with WebConsole that the memory regions are empty (the data is available on disk only).
 * Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt 
 cluster termination.
 
 ## Demo #4 - Calcite Prototype Demo With Sub-Queries
 
-This demo shows Calcite SQL Query engine capabilities.
+This demo shows how Ignite's new SQL engine powered by Apache Calcite SQL can already execute requests with sub-queries.
 
-* Build Ignite distribution from a feature branch running next commands:
+* Build Ignite distribution from a feature branch running the following commands:
 ```
 git clone --depth 1 --branch ignite-12248 https://gitbox.apache.org/repos/asf/ignite
 cd ./ignite
@@ -89,17 +89,17 @@ cd ./target/release-package-apache-ignite
 cp -r ./libs/optional/ignite-calcite ./libs/
 cp -r ./libs/optional/ignite-slf4j ./libs/
 ``` 
-* Start three ignite nodes with default configuration: `./bin/ignite.[sh|bat] ./config/default-config.xml`
+* Start a 3-nodes Ignite cluster with the following configuration: `./bin/ignite.[sh|bat] ./config/default-config.xml`
 * Connect to the cluster with SQLLine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/`
-* Create tables using next script: `!run {root_of_this_project}/scripts/employer.sql`
+* Create tables using this script: `!run {root_of_this_project}/scripts/employer.sql`
 * Execute a query:
 ```
 SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
 ```
 * Check the result is wrong.
-* Close SQLLine session: `!quit`
-* Connect to the cluster using experimental query engine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true`
-* Execute a query:
+* Close the SQLLine session: `!quit`
+* Connect to the cluster enabling the new Calcite-powered engine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true`
+* Execute the same query:
 ```
 SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
 ```
