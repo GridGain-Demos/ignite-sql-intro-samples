@@ -58,7 +58,12 @@ class org.apache.ignite.internal.mem.IgniteOutOfMemoryException: Out of memory i
 ```
 * Restart the cluster (both nodes) with `{root_of_this_project}/config/ignite-small-memory-region-persistence-enabled.xml` 
 configuration and activate it with `{ignite}/bin/control.sh --activate`.
-* Reconnect to the cluster with SQLLine and try to reload the database again `!run {root_of_this_project}/scripts/big-data-set.sql` script.
+* Reconnect to the cluster with SQLLine and try to reload the database again running `!run {root_of_this_project}/scripts/fielding.sql` script
+and command:
+```
+COPY FROM '{root_of_this_project}/data/Fielding.csv' INTO Fielding (ID,playerID,yearID,stint,teamID,lgID,POS,G,GS,InnOuts,PO,A,E,DP,PB,WP,SB,CS,ZR) FORMAT CSV;
+```
+
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
 * Go to WebConsole's Dashboard and check that default region's Memory metrics.
  will be occupied database records that fit in RAM.
