@@ -60,9 +60,9 @@ configuration and activate it with `{ignite}/bin/control.sh --activate`.
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
 * Go to WebConsole's Dashboard and check that default region's Memory metrics.
  will be occupied database records that fit in RAM.
-* Run a select over loaded data. (TODO add query)
+* Run a select query over the loaded data.
 * Stop the cluster and start the nodes back again.
-* Check with WebConsole that the memory regions are empty (the data is available on disk only). (TODO metrics are not empty on my side)
+* Check with WebConsole that the memory regions are empty (the data is available on disk only).
 * Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt 
 cluster termination.
 
