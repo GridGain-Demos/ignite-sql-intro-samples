@@ -78,7 +78,7 @@ cluster termination.
 
 ## Demo #4 - Calcite Prototype Demo With Sub-Queries
 
-This demo shows Calcite SQL Query engine capabilities engine.
+This demo shows Calcite SQL Query engine capabilities.
 
 * Build Ignite distribution from a feature branch running next commands:
 ```
