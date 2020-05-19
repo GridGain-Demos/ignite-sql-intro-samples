@@ -100,5 +100,7 @@ SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
 ```
 * Check the result is correct.
 
+## Other Demos
+
 Check `DemoAnnotations` and `DemoQueryEntities` for alternate ways of SQL configuration in Ignite.
 
