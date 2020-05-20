@@ -65,8 +65,8 @@ COPY FROM '{root_of_this_project}/data/Fielding.csv' INTO Fielding (ID,playerID,
 ```
 
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
-* Go to the Web Console Dashboard screen and check default region's memory metrics. You will see that the memory space is barely utilized 
-while the disk usage will be around 70 MBs.  
+* Go to the Web Console Dashboard screen and check default region's memory metrics. You will see that the memory space is fully utilized 
+while the disk usage is seven times more than available memory space.  
 * Execute a simple SQL query from WebConsole's SQL Notebooks screen: 
 ```
 SELECT * FROM Fielding ORDER BY yearID DESC
@@ -96,14 +96,20 @@ cp -r ./libs/optional/ignite-slf4j ./libs/
 ```
 SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
 ```
-* Check the result is wrong.
+* There are only three records that you inserted using `employer.sql` script:
+```
+INSERT INTO Employer(ID, Name, Salary) VALUES (1,'Igor',10);
+INSERT INTO Employer(ID, Name, Salary) VALUES (2,'Roman',15);
+INSERT INTO Employer(ID, Name, Salary) VALUES (3,'Nikolay',20);
+```
+You expect getting `[2, "Roman", 15]` as a result. Check the actual result is incorrect.
 * Close the SQLLine session: `!quit`
 * Connect to the cluster enabling the new Calcite-powered engine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true`
 * Execute the same query:
 ```
 SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
 ```
-* Check the result is correct.
+* Check the result is correct now.
 
 ## Other Demos
 
