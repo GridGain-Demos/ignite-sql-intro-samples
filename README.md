@@ -82,8 +82,8 @@ This demo shows how Ignite's new SQL engine powered by Apache Calcite SQL can al
 
 * Build Ignite distribution from a feature branch running the following commands:
 ```
-git clone --depth 1 --branch ignite-12248 https://gitbox.apache.org/repos/asf/ignite
-cd ./ignite
+git clone --depth 1 --branch ignite-12248 https://gitbox.apache.org/repos/asf/ignite ignite-calcite
+cd ./ignite-calcite
 mvn clean package -DskipTests -Prelease,lgpl
 cd ./target/release-package-apache-ignite
 cp -r ./libs/optional/ignite-calcite ./libs/
@@ -104,7 +104,7 @@ INSERT INTO Employer(ID, Name, Salary) VALUES (3,'Nikolay',20);
 ```
 You expect getting `[2, "Roman", 15]` as a result. Check the actual result is incorrect.
 * Close the SQLLine session: `!quit`
-* Connect to the cluster enabling the new Calcite-powered engine: `./bin/sqlline.[sh|bat] --verbose=true -u jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true`
+* Connect to the cluster enabling the new Calcite-powered engine: `./bin/sqlline.[sh|bat] --verbose=true -u 'jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true'`
 * Execute the same query:
 ```
 SELECT * FROM Employer WHERE Salary = (SELECT AVG(Salary) FROM employer);
