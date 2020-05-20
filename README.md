@@ -63,18 +63,13 @@ and command:
 ```
 COPY FROM '{root_of_this_project}/data/Fielding.csv' INTO Fielding (ID,playerID,yearID,stint,teamID,lgID,POS,G,GS,InnOuts,PO,A,E,DP,PB,WP,SB,CS,ZR) FORMAT CSV;
 ```
-
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
-* Go to the Web Console Dashboard screen and check default region's memory metrics. You will see that the memory space is fully utilized 
-while the disk usage is seven times more than available memory space.  
 * Execute a simple SQL query from WebConsole's SQL Notebooks screen: 
 ```
 SELECT * FROM Fielding ORDER BY yearID DESC
 ```
 * Stop the cluster and bring the nodes back again.
-* Check with WebConsole that the memory regions are empty (the data is available on disk only).
-* Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt 
-cluster termination.
+* Execute the same query, Ignite will serve data from disk and didn't lose a bit of data during the abrupt cluster termination.
 
 ## Demo #4 - Calcite Prototype Demo With Sub-Queries
 
