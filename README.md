@@ -73,9 +73,9 @@ SELECT * FROM Fielding ORDER BY yearID DESC
 
 ## Demo #4 - Calcite Prototype Demo With Sub-Queries
 
-This demo shows how Ignite's new SQL engine powered by Apache Calcite SQL can already execute requests with sub-queries.
+This demo shows how Ignite's new SQL engine powered by Apache Calcite can already execute requests with sub-queries.
 
-* Build Ignite distribution from a feature branch running the following commands:
+* Build the branch with the Calcite prototype:
 ```
 git clone --depth 1 --branch ignite-12248 https://gitbox.apache.org/repos/asf/ignite ignite-calcite
 cd ./ignite-calcite
@@ -97,7 +97,7 @@ INSERT INTO Employer(ID, Name, Salary) VALUES (1,'Igor',10);
 INSERT INTO Employer(ID, Name, Salary) VALUES (2,'Roman',15);
 INSERT INTO Employer(ID, Name, Salary) VALUES (3,'Nikolay',20);
 ```
-You expect getting `[2, "Roman", 15]` as a result. Check the actual result is incorrect.
+You expect getting `[2, "Roman", 15]` as a result. This is a wrong result.
 * Close the SQLLine session: `!quit`
 * Connect to the cluster enabling the new Calcite-powered engine: `./bin/sqlline.[sh|bat] --verbose=true -u 'jdbc:ignite:thin://127.0.0.1/?useExperimentalQueryEngine=true'`
 * Execute the same query:
