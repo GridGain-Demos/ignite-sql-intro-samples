@@ -64,7 +64,12 @@ and command:
 COPY FROM '{root_of_this_project}/data/Fielding.csv' INTO Fielding (ID,playerID,yearID,stint,teamID,lgID,POS,G,GS,InnOuts,PO,A,E,DP,PB,WP,SB,CS,ZR) FORMAT CSV;
 ```
 This time you'll succeed loading the database because 100% of data will be stored in Ignite native persistence while a subset will be cached in memory.
-* Execute a simple SQL query from WebConsole's SQL Notebooks screen: 
+If you open Web Console Dashboard you will see that that whole data set is stored (and accessible from) disk while only 
+a subset of the records is cached in RAM.
+
+![image](images/in-memory-data.png)
+
+* Confirm that Ignite can read both in-memory and disk-only records by executing a simple SQL query from WebConsole's SQL Notebooks screen: 
 ```
 SELECT * FROM Fielding ORDER BY yearID DESC
 ```
